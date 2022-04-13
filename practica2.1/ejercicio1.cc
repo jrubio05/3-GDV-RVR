@@ -1,3 +1,5 @@
+/// $ miaddr www.ucm.es http -> 147.96.1.15:80; ...
+
 /*
 >./gai www.google.com
 66.102.1.147	2	1
@@ -21,7 +23,7 @@ int main(int argc, char** argv){
 	hints.ai_flags = AI_PASSIVE;
 	hints.ai_family = AF_UNSPEC;
 	// lista de resultados
-	struct addrinfo *result/* = malloc(sizeof(struct addrinfo)*/;
+	struct addrinfo *result;
 	
 	// obtener resultados
 	int luis = getaddrinfo(argv[1], argv[2], &hints, &result);
@@ -36,7 +38,7 @@ int main(int argc, char** argv){
 		char host[NI_MAXHOST];
 		char serv[NI_MAXSERV];
 
-		//
+		// obtener dirección
 		int pepe = getnameinfo(
 			i->ai_addr, i->ai_addrlen,
 			host, NI_MAXHOST,

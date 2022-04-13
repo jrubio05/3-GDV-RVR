@@ -1,3 +1,5 @@
+/// miudp
+
 /*
 >./time_server 0.0.0.0 3000
 > nc -u 127.0.0.1 3000
@@ -15,7 +17,7 @@ int main(int argc, char** argv){
 	struct addrinfo hints;
 	memset(&hints, 0, sizeof(struct addrinfo));
 	hints.ai_flags = AI_PASSIVE; // Se puede escuchar en 0.0.0.0
-	hints.ai_family = AF_INET; // Direcciones IPv4
+	hints.ai_family = AF_INET; // Direcciones tipo IPv4
 	hints.ai_socktype = SOCK_DGRAM; // Datagrama (socket tipo UDP)
 	// lista de resultados
 	struct addrinfo *result;
