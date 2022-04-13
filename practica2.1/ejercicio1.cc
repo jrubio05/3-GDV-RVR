@@ -45,6 +45,7 @@ int main(int argc, char** argv){
 		// error?
 		if (pepe != 0) {
 			std::cerr << "Error getnameinfo: " << gai_strerror(pepe) << "\n";
+			freeaddrinfo(result); // liberar memoria dinámica
 			return -1;
 		}
 		
