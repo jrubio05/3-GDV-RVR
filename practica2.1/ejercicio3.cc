@@ -58,6 +58,7 @@ int main(int argc, char** argv){
 	}
 	
 	// recibir respuesta (si el servidor va a generarla) y mostrarla
+	/// se bloquea si no hay servidor
 	if (strncmp(argv[3], "t", 1) == 0 || strncmp(argv[3], "d", 1) == 0) {
 		char buffer[BUFFSIZE];
 		ssize_t bytesReceived = recvfrom(sd, buffer, BUFFSIZE - 1, 0, result->ai_addr, &result->ai_addrlen);

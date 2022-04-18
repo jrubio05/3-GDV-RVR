@@ -93,7 +93,6 @@ int main(int argc, char** argv){
 		// impresión por pantalla
 		printf("Conexión desde %s:%s\n",host, serv);
 		
-		
 		// tratar conexión
 		int conn = 1;
 		while (conn) {
