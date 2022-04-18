@@ -1,0 +1,15 @@
+./mitcp localhost 8080
+
+	ss -tan | grep 8080
+	
+		...
+
+
+nc 127.0.0.1 8080 // nos conectamos
+
+	ss -tan | grep 8080
+	
+		1a línea -> mitcp	sd 		LISTEN
+		2a línea -> mitcp	client_sd	ESTABLISHED
+		------------------- cliente/servidor -------------------
+		3a línea -> netcat	?		ESTABLISHED
