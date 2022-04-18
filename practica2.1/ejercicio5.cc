@@ -10,7 +10,9 @@
 #include <netdb.h>	// getaddrinfo
 #include <string.h>	// memset
 #include <stdio.h>	// perror
-#include <unistd.h>	// sleep
+/////#include <unistd.h>	// sleep
+
+#define BUFFSIZE 128
 
 int main(int argc, char** argv){
 	// criterios
@@ -46,35 +48,41 @@ int main(int argc, char** argv){
 	// comunicación
 	int salir = 0;
 	while (!salir) {
-		///////////////////////////char bufferUsuario[128];
-		char bufferRecepcion[128];
+		char bufferUsuario[BUFFSIZE];
+		char bufferRecepcion[BUFFSIZE];
 		
-		/*////////////////////////////////////
-		// socket servidor y su tamaño
-		struct sockaddr_in client;
-		socklen_t clientlen = sizeof(struct sockaddr_in);
-		*/
+		// recoger entrada
+		std::cin.getline(bufferUsuario, BUFFSIZE);
+		/////bufferUsuario[BUFFSIZE - 1] = '\0';
+		/////printf("\t___%li\n", strlen(bufferUsuario));////////////////////////
+		/////sleep(2);
+		///// se traba al rebosar el búffer y no alcanzo a ver por qué
+		if (strlen(bufferUsuario) > BUFFSIZE - 1) { // truncar
+			bufferUsuario[BUFFSIZE - 1] = '\n';
+		}
+		else { // concatenar
+			strncat(bufferUsuario, "\n", 2);
+		}
 		
-		char bufferUsuario[] = "HelloThere\n";//std::cin >> bufferUsuario;
-		
-		//int scn = sscanf(bufferUsuario, "q");
+		// control: cerrar cliente
+		if (strcmp(bufferUsuario, "Q\n") == 0) {
+			salir = 1;
+			continue;
+		}
 		
 		// envío del mensaje
-		ssize_t sbytes = send(sd, bufferUsuario, 11, 0);
+		ssize_t sbytes = send(sd, bufferUsuario, strlen(bufferUsuario), 0);
 		if (sbytes == -1) {
 			perror(NULL);
-			printf("\n__-POLLAS~1\n");///////////////////////////////////
-			salir = 1;///////////////////////////////////////////////////
+			freeaddrinfo(result); // liberar memoria dinámica
 			return -1;
 		}
 		
 		// recepción de la réplica
-		ssize_t c = 1;
-		int rbytes = recv(sd, bufferRecepcion, 11, 0);
+		int rbytes = recv(sd, bufferRecepcion, strlen(bufferUsuario), 0);
 		if (rbytes == -1) {
 			perror(NULL);
-			printf("\n__-POLLAS~2\n");//////////////////////////////////
-			salir = 1;//////////////////////////////////////////////////
+			freeaddrinfo(result); // liberar memoria dinámica
 			return -1;
 		}
 		// ¡indicar finalización de cadena!
@@ -82,8 +90,6 @@ int main(int argc, char** argv){
 		
 		// impresión por pantalla
 		std::cout << bufferRecepcion;
-		
-		sleep(1);
 	}
 	
 	// liberar memoria dinámica
@@ -92,4 +98,3 @@ int main(int argc, char** argv){
 	// éxito
 	return 0;
 }
-
