@@ -98,5 +98,6 @@ usar el comando od con las opciones -sa (od -sa data)
 	binarios como 'jugador.bin'.
 	
 ¿qué relación hay entre la salida del comando y la serialización?
-	
+	> El comando permite verificar el resultado de la función
+	que serializa la estructura del jugador al fichero.
 */
