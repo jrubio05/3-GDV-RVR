@@ -49,6 +49,7 @@ int main(int argc, char** argv){
 	// ¡es MUY IMPORTANTE tratar los errores que de bind(...)!
 	if (juan == -1) {
 		perror(NULL);
+		close(sd); // cerrar socket
 		freeaddrinfo(result); // liberar memoria dinámica
 		return -1;
 	}
@@ -56,6 +57,7 @@ int main(int argc, char** argv){
 	int paco = listen(sd, 16); // backlog (ha de ser 2^n) de 16, ya que es el mínimo para el kernel linux
 	if (paco == -1) {
 		perror(NULL);
+		close(sd); // cerrar socket
 		freeaddrinfo(result); // liberar memoria dinámica
 		return -1;
 	}
@@ -74,6 +76,7 @@ int main(int argc, char** argv){
 		int client_sd = accept(sd, (struct sockaddr*) &client, &clientlen); // se emplean las tres cosas que representan al cliente (en UDP no hay identificación del cliente)
 		if (client_sd == -1) {
 			perror(NULL);
+			close(sd); // cerrar socket
 			freeaddrinfo(result); // liberar memoria dinámica
 			return -1;
 		}
@@ -87,6 +90,7 @@ int main(int argc, char** argv){
 		// error?
 		if (pepe != 0) {
 			std::cerr << "Error getnameinfo: " << gai_strerror(pepe) << "\n";
+			close(sd); // cerrar socket
 			freeaddrinfo(result); // liberar memoria dinámica
 			return -1;
 		}
@@ -129,6 +133,9 @@ int main(int argc, char** argv){
 		// impresión por pantalla
 		printf("Conexión %s:%s terminada\n",host, serv);
 	}
+	
+	// cerrar socket
+	close(sd);
 	
 	// liberar memoria dinámica
 	freeaddrinfo(result);

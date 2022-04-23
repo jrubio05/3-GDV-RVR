@@ -41,6 +41,7 @@ int main(int argc, char** argv){
 	int juan = connect(sd, result->ai_addr, result->ai_addrlen);
 	if (juan == -1) {
 		perror("ERROR_EN_CONNECT");
+		close(sd); // cerrar socket
 		freeaddrinfo(result); // liberar memoria dinámica
 		return -1;
 	}
@@ -74,6 +75,7 @@ int main(int argc, char** argv){
 		ssize_t sbytes = send(sd, bufferUsuario, strlen(bufferUsuario), 0);
 		if (sbytes == -1) {
 			perror(NULL);
+			close(sd); // cerrar socket
 			freeaddrinfo(result); // liberar memoria dinámica
 			return -1;
 		}
@@ -82,6 +84,7 @@ int main(int argc, char** argv){
 		int rbytes = recv(sd, bufferRecepcion, strlen(bufferUsuario), 0);
 		if (rbytes == -1) {
 			perror(NULL);
+			close(sd); // cerrar socket
 			freeaddrinfo(result); // liberar memoria dinámica
 			return -1;
 		}
@@ -91,6 +94,9 @@ int main(int argc, char** argv){
 		// impresión por pantalla
 		std::cout << bufferRecepcion;
 	}
+	
+	// cerrar socket
+	close(sd);
 	
 	// liberar memoria dinámica
 	freeaddrinfo(result);

@@ -44,6 +44,7 @@ int main(int argc, char** argv){
 	// ¡es MUY IMPORTANTE tratar los errores que de bind(...)!
 	if (juan == -1) {
 		perror(NULL);
+		close(sd); // cerrar socket
 		freeaddrinfo(result); // liberar memoria dinámica
 		return -1;
 	}
@@ -65,11 +66,13 @@ int main(int argc, char** argv){
 		// ¡hay que detectar el cierre de la conexion!
 		// se evita el error al hacer ctrl+C
 		if (bytes == 0) { // cierre ordenado
+			close(sd); // cerrar socket
 			freeaddrinfo(result); // liberar memoria dinámica
 			return 0; // terminar
 		}
 		else if (bytes == -1) { // error
 			perror(NULL);
+			close(sd); // cerrar socket
 			freeaddrinfo(result); // liberar memoria dinámica
 			return -1; // terminar
 		}
@@ -86,6 +89,7 @@ int main(int argc, char** argv){
 		// error?
 		if (pepe != 0) {
 			std::cerr << "Error getnameinfo: " << gai_strerror(pepe) << "\n";
+			close(sd); // cerrar socket
 			freeaddrinfo(result); // liberar memoria dinámica
 			return -1;
 		}
@@ -97,12 +101,14 @@ int main(int argc, char** argv){
 		time(&timep);
 		if (timep == ((time_t) -1)) {
 			perror(NULL);
+			close(sd); // cerrar socket
 			freeaddrinfo(result); // liberar memoria dinámica
 			return -1;
 		}
 		struct tm* myTime = localtime(&timep);
 		if (myTime == NULL) {
 			perror(NULL);
+			close(sd); // cerrar socket
 			freeaddrinfo(result); // liberar memoria dinámica
 			return -1;
 		}
@@ -131,6 +137,7 @@ int main(int argc, char** argv){
 			std::cout << "Comando cierre\n";
 			// salir:
 			std::cout << "Saliendo...\n";
+			close(sd); // cerrar socket
 			freeaddrinfo(result); // liberar memoria dinámica
 			return 0; // terminar
 		}
@@ -138,6 +145,9 @@ int main(int argc, char** argv){
 			std::cout << "Comando desconocido\n";
 		}
 	}
+	
+	// cerrar socket
+	close(sd);
 	
 	// liberar memoria dinámica
 	freeaddrinfo(result);

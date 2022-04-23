@@ -53,6 +53,7 @@ int main(int argc, char** argv){
 	ssize_t bytesSent = sendto(sd, argv[3], 1, 0, result->ai_addr, result->ai_addrlen);
 	if (bytesSent == -1) {
 		perror("ERROR_EN_SENDTO");
+		close(sd); // cerrar socket
 		freeaddrinfo(result); // liberar memoria dinámica
 		return -1; // terminar
 	}
@@ -64,6 +65,7 @@ int main(int argc, char** argv){
 		ssize_t bytesReceived = recvfrom(sd, buffer, BUFFSIZE - 1, 0, result->ai_addr, &result->ai_addrlen);
 		if (bytesReceived == -1) {
 			perror("ERROR_EN_RECVFROM");
+			close(sd); // cerrar socket
 			freeaddrinfo(result); // liberar memoria dinámica
 			return -1; // terminar
 		}
@@ -73,6 +75,9 @@ int main(int argc, char** argv){
 		// impresión por pantalla
 		std::cout << buffer << "\n";
 	}
+	
+	// cerrar socket
+	close(sd);
 	
 	// liberar memoria dinámica
 	freeaddrinfo(result);
