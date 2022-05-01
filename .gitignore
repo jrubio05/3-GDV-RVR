@@ -6,3 +6,9 @@ practica2.1/ejercicio3
 practica2.1/ejercicio5
 practica2.2/serializacion/jugador.bin
 practica2.2/serializacion/ejercicio1
+practica2.2/replicacion-chat/cc
+practica2.2/replicacion-chat/Chat.o
+practica2.2/replicacion-chat/ChatClient.o
+practica2.2/replicacion-chat/ChatServer.o
+practica2.2/replicacion-chat/cs
+practica2.2/replicacion-chat/Socket.o

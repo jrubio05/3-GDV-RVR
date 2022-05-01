@@ -98,7 +98,9 @@ public:
      * @param n nick del usuario
      */
     ChatClient(const char * s, const char * p, const char * n):socket(s, p),
-        nick(n){};
+        nick(n) {
+        	if (strlen(nick.c_str()) + 1 >= 8) nick[8-1] = '\0';
+        };
 
     /**
      *  Envía el mensaje de login al servidor
